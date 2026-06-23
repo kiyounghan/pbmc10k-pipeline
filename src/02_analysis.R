@@ -4,12 +4,18 @@ library(tidyverse)
 
 print("🚀 Starting Single-Cell Analysis Pipeline...")
 
-# 1. Load the 10x Genomics dataset that you downloaded in Phase 1
+# 1. Load the 10x Genomics dataset
 pbmc.data <- Read10X(data.dir = "data/filtered_feature_bc_matrix/")
+
+# 1a. First few rows
+print(head(pbmc.data)[1:2,1:2])
 
 # 2. Initialize the Seurat Object (creates the raw data matrix container)
 pbmc <- CreateSeuratObject(counts = pbmc.data, project = "pbmc10k", min.cells = 3, min.features = 200)
 print(paste("Initial matrix size:", ncol(pbmc), "cells and", nrow(pbmc), "genes."))
+
+# 2a. First few rows
+print(head(pbmc))
 
 # 3. Quality Control (QC): Calculate mitochondrial read percentages
 # Dying cells spill cytoplasmic RNA, leaving mostly mitochondrial RNA behind
@@ -38,10 +44,10 @@ pbmc <- FindClusters(pbmc, resolution = 0.5)
 # 9. Non-linear Dimension Reduction (Generate UMAP Coordinates)
 pbmc <- RunUMAP(pbmc, dims = 1:10, verbose = FALSE)
 
-# 10. Save the final cluster plot as a PNG image inside your figures folder
+# 10. Save the final cluster plot as a PNG image inside figures folder
 print("💾 Generating final UMAP cluster visualization...")
 png("results/figures/umap_clusters.png", width = 800, height = 600)
 DimPlot(pbmc, reduction = "umap", label = TRUE) + NoLegend() + ggtitle("UMAP Clustering of 10k Human PBMCs")
 dev.off()
 
-print("✅ Pipeline complete! Your cluster plot is saved in results/figures/umap_clusters.png")
+print("✅ Pipeline complete! Cluster plot is saved in results/figures/umap_clusters.png")
