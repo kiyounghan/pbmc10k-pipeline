@@ -15,7 +15,7 @@ pbmc <- CreateSeuratObject(counts = pbmc.data, project = "pbmc10k", min.cells = 
 print(paste("Initial matrix size:", ncol(pbmc), "cells and", nrow(pbmc), "genes."))
 
 # 2a. Observe the first 6 rows
-print(head(pbmc))
+print(paste("First few rows:", head(pbmc)))
 
 
 # 3. Quality Control (QC): Calculate mitochondrial read percentages
@@ -25,7 +25,7 @@ pbmc[["percent.mt"]] <- PercentageFeatureSet(pbmc, pattern = "^MT-")
 # 4. Filter cells based on industry-standard thresholds
 # Drop cells with fewer than 200 genes, more than 2500 genes, or > 5% mitochondrial data
 pbmc <- subset(pbmc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)
-print(paste("***Matrix size after QC filtering:", ncol(pbmc), "cells."))
+print(paste("Matrix size after QC filtering:", ncol(pbmc), "cells."))
 
 # 5. Global Normalization (LogNormalize scales total counts to 10,000 per cell)
 pbmc <- NormalizeData(pbmc, normalization.method = "LogNormalize", scale.factor = 10000)
@@ -46,9 +46,9 @@ pbmc <- FindClusters(pbmc, resolution = 0.5)
 pbmc <- RunUMAP(pbmc, dims = 1:10, verbose = FALSE)
 
 # 10. Save the final cluster plot as a PNG image inside your figures folder
-print("*** Generate final UMAP cluster visualization")
+print("Generate final UMAP cluster visualization")
 png("results/figures/umap_clusters.png", width = 800, height = 600)
 DimPlot(pbmc, reduction = "umap", label = TRUE) + NoLegend() + ggtitle("UMAP Clustering of 10k Human PBMCs")
 dev.off()
 
-print("*** Pipeline complete! Your cluster plot is saved in results/figures/umap_clusters.png")
+print("Pipeline complete! Your cluster plot is saved in results/figures/umap_clusters.png")
