@@ -7,15 +7,15 @@ print("Starting Single-Cell Analysis Pipeline...")
 # 1. Load the 10x Genomics dataset 
 pbmc.data <- Read10X(data.dir = "data/filtered_feature_bc_matrix/")
 
-# 1a. Observe the first 6 rows
-print(head(pbmc.data))
+# 1a. Observe the first 2 rows
+print(head(pbmc.data)[1:2,1:2])
 
 # 2. Initialize the Seurat Object (creates the raw data matrix container)
 pbmc <- CreateSeuratObject(counts = pbmc.data, project = "pbmc10k", min.cells = 3, min.features = 200)
 print(paste("Initial matrix size:", ncol(pbmc), "cells and", nrow(pbmc), "genes."))
 
-# 2a. Observe the first 6 rows
-print(paste("First few rows:", head(pbmc)))
+# 2a. Observe the first 2 rows
+print(paste("First few rows:", head(pbmc)[1:2,1:2]))
 
 
 # 3. Quality Control (QC): Calculate mitochondrial read percentages
