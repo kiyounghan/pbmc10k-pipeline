@@ -2,7 +2,7 @@
 library(Seurat)
 library(tidyverse)
 
-print("🚀 Starting Single-Cell Analysis Pipeline...")
+print("Starting Single-Cell Analysis Pipeline...")
 
 # 1. Load the 10x Genomics dataset 
 pbmc.data <- Read10X(data.dir = "data/filtered_feature_bc_matrix/")
